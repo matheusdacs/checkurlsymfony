@@ -1,0 +1,7 @@
+<ul>
+    {% for url in urllist %}
+        <li>{{ url.id }} - {{ url.urllink }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{{ path('app_main') }}">click here to go back to main</a>

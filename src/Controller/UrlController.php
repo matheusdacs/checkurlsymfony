@@ -8,6 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class UrlController extends AbstractController
 {
@@ -39,5 +43,21 @@ class UrlController extends AbstractController
         }
 
         return $this->render('url/url.html.twig', ['returnList' => $return]);
+    }
+
+    #[Route('/main/urlget', name: 'url_get', methods:["GET"])]
+    public function urlget(): Response
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $repository = $this->getDoctrine()->getRepository(Url::class);
+        $urlList = $repository->findByUser($user->getId());
+
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = json_decode($serializer->serialize($urlList, 'json'));
+
+        return $this->render('url/showurl.html.twig', ['urllist' => $jsonContent]);
     }
 }
