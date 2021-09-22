@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>let's check your URL? fill out the form bellow:</h1>
+
+    <ul>
+        {% for return in returnList %}
+            <li>{{ return }}</li>
+        {% endfor %}
+    </ul>
+    <form  method="post" action="{{ path('url') }}">
+        <input type="text" name="urllink"></br>
+        <input type="submit" name="btnSubmit">
+    </form>
+
+    <p> Back to main? click <a href="{{ path('app_main') }}">here </a> </p>
+
+{% endblock %}

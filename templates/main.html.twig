@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main{% endblock %}
+
+{% block body %}
+    <h1> Seja bem vindo  {{ user }}! </h1>
+    <p> Register your URL's now: <a href="{{ path('url') }}">click here </a> </p>
+
+
+    </br>
+    <h1>Check your history logs below: </h1>
+    <div class="history_logs"></div>
+    <p><button onclick="requestData('{{ url_getdata }}')">Reload list</button></p>
+
+    <script src="{{ asset('js/common.js') }}"></script>
+    <script>
+
+        requestData('{{ url_getdata }}')
+    </script>
+{% endblock %}
+
+
